@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+  </style>
+</head>
+<body>
+<p class="p1"><br></p>
+<p class="p2">```markdown</p>
+<p class="p2"># Einführung in MapReduce</p>
+<p class="p1"><br></p>
+<p class="p2">## 1. Einleitung</p>
+<p class="p2">MapReduce ist ein Programmiermodell und eine zugehörige Implementierung zum Verarbeiten und Generieren großer Datensätze. Das Modell besteht aus zwei Schritten: Map und Reduce, die jeweils eine Menge an Eingabedaten verarbeiten und in eine andere Form transformieren.</p>
+<p class="p1"><br></p>
+<p class="p2">## 2. Grundlagen</p>
+<p class="p1"><br></p>
+<p class="p2">### 2.1 Map-Schritt</p>
+<p class="p2">Im Map-Schritt wird eine Map-Funktion auf jedes Eingabe-Datenpaar (Schlüssel, Wert) angewendet, um eine Zwischenmenge an Datenpaaren zu erzeugen. Beispiel:</p>
+<p class="p1"><br></p>
+<p class="p2">```python</p>
+<p class="p2">def map_function(key, value):</p>
+<p class="p2"><span class="Apple-converted-space">    </span>for word in value.split():</p>
+<p class="p2"><span class="Apple-converted-space">        </span>yield (word, 1)</p>
+<p class="p2">```</p>
+<p class="p1"><br></p>
+<p class="p2">### 2.2 Shuffle and Sort</p>
+<p class="p2">Zwischen dem Map- und Reduce-Schritt werden die Zwischenpaare (Schlüssel, Wert) sortiert und gruppiert. Dieser Schritt wird oft als Shuffle and Sort bezeichnet und ist für die Verteilung der Daten an die Reducer zuständig.</p>
+<p class="p1"><br></p>
+<p class="p2">### 2.3 Reduce-Schritt</p>
+<p class="p2">Im Reduce-Schritt werden alle Zwischenpaare, die den gleichen Schlüssel besitzen, zusammengefasst und zu einem einzigen Ausgabewert reduziert. Beispiel:</p>
+<p class="p1"><br></p>
+<p class="p2">```python</p>
+<p class="p2">def reduce_function(key, values):</p>
+<p class="p2"><span class="Apple-converted-space">    </span>yield (key, sum(values))</p>
+<p class="p2">```</p>
+<p class="p1"><br></p>
+<p class="p2">## 3. Beispiel: Wortzählung</p>
+<p class="p1"><br></p>
+<p class="p2">### 3.1 Problemstellung</p>
+<p class="p2">Zählen Sie die Häufigkeit jedes Wortes in einem gegebenen Text.</p>
+<p class="p1"><br></p>
+<p class="p2">### 3.2 Map-Funktion</p>
+<p class="p2">Die Map-Funktion zerlegt den Text in einzelne Wörter und gibt für jedes Wort ein Paar (Wort, 1) zurück.</p>
+<p class="p1"><br></p>
+<p class="p2">```python</p>
+<p class="p2">def map_function(key, value):</p>
+<p class="p2"><span class="Apple-converted-space">    </span>for word in value.split():</p>
+<p class="p2"><span class="Apple-converted-space">        </span>yield (word, 1)</p>
+<p class="p2">```</p>
+<p class="p1"><br></p>
+<p class="p2">### 3.3 Reduce-Funktion</p>
+<p class="p2">Die Reduce-Funktion summiert die Werte aller Paare mit dem gleichen Wort als Schlüssel.</p>
+<p class="p1"><br></p>
+<p class="p2">```python</p>
+<p class="p2">def reduce_function(key, values):</p>
+<p class="p2"><span class="Apple-converted-space">    </span>yield (key, sum(values))</p>
+<p class="p2">```</p>
+<p class="p1"><br></p>
+<p class="p2">## 4. Implementierung</p>
+<p class="p1"><br></p>
+<p class="p2">### 4.1 Hadoop Framework</p>
+<p class="p2">Das Hadoop Framework ist eine weit verbreitete Implementierung von MapReduce und besteht aus zwei Hauptkomponenten:</p>
+<p class="p2">- **Hadoop Distributed File System (HDFS):** Ein verteiltes Dateisystem, das große Datenmengen speichert.</p>
+<p class="p2">- **Hadoop MapReduce:** Ein Framework für verteilte Berechnungen.</p>
+<p class="p1"><br></p>
+<p class="p2">### 4.2 Job-Konfiguration</p>
+<p class="p2">Ein MapReduce-Job besteht aus:</p>
+<p class="p2">- **Job Configuration:** Einstellungen für den Job (Eingabe-, Ausgabeformat, Mapper- und Reducer-Klassen).</p>
+<p class="p2">- **InputFormat:** Definiert, wie die Eingabedaten gelesen werden.</p>
+<p class="p2">- **OutputFormat:** Definiert, wie die Ausgabedaten geschrieben werden.</p>
+<p class="p1"><br></p>
+<p class="p2">## 5. Vorteile von MapReduce</p>
+<p class="p1"><br></p>
+<p class="p2">- **Skalierbarkeit:** Verarbeitet sehr große Datenmengen durch parallele Ausführung auf vielen Rechnern.</p>
+<p class="p2">- **Fehlertoleranz:** Automatische Wiederholung von fehlerhaften Aufgaben.</p>
+<p class="p2">- **Flexibilität:** Unterstützt eine Vielzahl von Anwendungsfällen (z.B. Datenanalyse, maschinelles Lernen).</p>
+<p class="p1"><br></p>
+<p class="p2">## 6. Herausforderungen und Alternativen</p>
+<p class="p1"><br></p>
+<p class="p2">### 6.1 Herausforderungen</p>
+<p class="p2">- **Komplexität:** Erfordert Kenntnisse in der verteilten Programmierung.</p>
+<p class="p2">- **Performance:** Nicht immer die effizienteste Lösung für alle Probleme (z.B. iterative Algorithmen).</p>
+<p class="p1"><br></p>
+<p class="p2">### 6.2 Alternativen</p>
+<p class="p2">- **Apache Spark:** Ein Framework für verteilte Berechnungen, das oft schneller und einfacher zu verwenden ist als MapReduce.</p>
+<p class="p2">- **Apache Flink:** Ein weiteres Framework für verteilte Berechnungen mit Unterstützung für sowohl Batch- als auch Stream-Processing.</p>
+<p class="p1"><br></p>
+<p class="p2">## 7. Fazit</p>
+<p class="p2">MapReduce ist ein leistungsfähiges Modell für die Verarbeitung großer Datenmengen. Durch die Aufteilung der Verarbeitung in einfache Schritte (Map und Reduce) kann es eine Vielzahl von Problemen effizient lösen. Dennoch sollten alternative Technologien in Betracht gezogen werden, je nach spezifischen Anforderungen und Datencharakteristika.</p>
+<p class="p2">```</p>
+<p class="p1"><br></p>
+<p class="p2">Um diese Datei auf GitHub hochzuladen, befolge diese Schritte:</p>
+<p class="p1"><br></p>
+<p class="p2">1. Erstelle ein neues Repository auf GitHub.</p>
+<p class="p2">2. Klone das Repository auf deinen lokalen Computer.</p>
+<p class="p2">3. Erstelle eine neue Datei namens `MapReduce_Handout.md` und füge den oben genannten Markdown-Inhalt ein.</p>
+<p class="p2">4. Führe die folgenden Git-Befehle aus, um die Datei zu deinem Repository hinzuzufügen und hochzuladen:</p>
+<p class="p1"><br></p>
+<p class="p2">```bash</p>
+<p class="p2">git add MapReduce_Handout.md</p>
+<p class="p2">git commit -m "Add MapReduce Handout"</p>
+<p class="p2">git push origin main</p>
+<p class="p2">```</p>
+<p class="p1"><br></p>
+</body>
+</html>
