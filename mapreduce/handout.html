@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einführung in MapReduce</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Einführung in MapReduce</h1>
+    
+    <h2>1. Einleitung</h2>
+    <p>MapReduce ist ein Programmiermodell und eine zugehörige Implementierung zum Verarbeiten und Generieren großer Datensätze. Das Modell besteht aus zwei Schritten: Map und Reduce, die jeweils eine Menge an Eingabedaten verarbeiten und in eine andere Form transformieren.</p>
+    
+    <h2>2. Grundlagen</h2>
+    
+    <h3>2.1 Map-Schritt</h3>
+    <p>Im Map-Schritt wird eine Map-Funktion auf jedes Eingabe-Datenpaar (Schlüssel, Wert) angewendet, um eine Zwischenmenge an Datenpaaren zu erzeugen. Beispiel:</p>
+    <pre><code>def map_function(key, value):
+    for word in value.split():
+        yield (word, 1)
+    </code></pre>
+    
+    <h3>2.2 Shuffle and Sort</h3>
+    <p>Zwischen dem Map- und Reduce-Schritt werden die Zwischenpaare (Schlüssel, Wert) sortiert und gruppiert. Dieser Schritt wird oft als Shuffle and Sort bezeichnet und ist für die Verteilung der Daten an die Reducer zuständig.</p>
+    
+    <h3>2.3 Reduce-Schritt</h3>
+    <p>Im Reduce-Schritt werden alle Zwischenpaare, die den gleichen Schlüssel besitzen, zusammengefasst und zu einem einzigen Ausgabewert reduziert. Beispiel:</p>
+    <pre><code>def reduce_function(key, values):
+    yield (key, sum(values))
+    </code></pre>
+    
+    <h2>3. Beispiel: Wortzählung</h2>
+    
+    <h3>3.1 Problemstellung</h3>
+    <p>Zählen Sie die Häufigkeit jedes Wortes in einem gegebenen Text.</p>
+    
+    <h3>3.2 Map-Funktion</h3>
+    <p>Die Map-Funktion zerlegt den Text in einzelne Wörter und gibt für jedes Wort ein Paar (Wort, 1) zurück.</p>
+    <pre><code>def map_function(key, value):
+    for word in value.split():
+        yield (word, 1)
+    </code></pre>
+    
+    <h3>3.3 Reduce-Funktion</h3>
+    <p>Die Reduce-Funktion summiert die Werte aller Paare mit dem gleichen Wort als Schlüssel.</p>
+    <pre><code>def reduce_function(key, values):
+    yield (key, sum(values))
+    </code></pre>
+    
+    <h2>4. Implementierung</h2>
+    
+    <h3>4.1 Hadoop Framework</h3>
+    <p>Das Hadoop Framework ist eine weit verbreitete Implementierung von MapReduce und besteht aus zwei Hauptkomponenten:</p>
+    <ul>
+        <li><strong>Hadoop Distributed File System (HDFS):</strong> Ein verteiltes Dateisystem, das große Datenmengen speichert.</li>
+        <li><strong>Hadoop MapReduce:</strong> Ein Framework für verteilte Berechnungen.</li>
+    </ul>
+    
+    <h3>4.2 Job-Konfiguration</h3>
+    <p>Ein MapReduce-Job besteht aus:</p>
+    <ul>
+        <li><strong>Job Configuration:</strong> Einstellungen für den Job (Eingabe-, Ausgabeformat, Mapper- und Reducer-Klassen).</li>
+        <li><strong>InputFormat:</strong> Definiert, wie die Eingabedaten gelesen werden.</li>
+        <li><strong>OutputFormat:</strong> Definiert, wie die Ausgabedaten geschrieben werden.</li>
+    </ul>
+    
+    <h2>5. Vorteile von MapReduce</h2>
+    <ul>
+        <li><strong>Skalierbarkeit:</strong> Verarbeitet sehr große Datenmengen durch parallele Ausführung auf vielen Rechnern.</li>
+        <li><strong>Fehlertoleranz:</strong> Automatische Wiederholung von fehlerhaften Aufgaben.</li>
+        <li><strong>Flexibilität:</strong> Unterstützt eine Vielzahl von Anwendungsfällen (z.B. Datenanalyse, maschinelles Lernen).</li>
+    </ul>
+    
+    <h2>6. Herausforderungen und Alternativen</h2>
+    
+    <h3>6.1 Herausforderungen</h3>
+    <ul>
+        <li><strong>Komplexität:</strong> Erfordert Kenntnisse in der verteilten Programmierung.</li>
+        <li><strong>Performance:</strong> Nicht immer die effizienteste Lösung für alle Probleme (z.B. iterative Algorithmen).</li>
+    </ul>
+    
+    <h3>6.2 Alternativen</h3>
+    <ul>
+        <li><strong>Apache Spark:</strong> Ein Framework für verteilte Berechnungen, das oft schneller und einfacher zu verwenden ist als MapReduce.</li>
+        <li><strong>Apache Flink:</strong> Ein weiteres Framework für verteilte Berechnungen mit Unterstützung für sowohl Batch- als auch Stream-Processing.</li>
+    </ul>
+    
+    <h2>7. Fazit</h2>
+    <p>MapReduce ist ein leistungsfähiges Modell für die Verarbeitung großer Datenmengen. Durch die Aufteilung der Verarbeitung in einfache Schritte (Map und Reduce) kann es eine Vielzahl von Problemen effizient lösen. Dennoch sollten alternative Technologien in Betracht gezogen werden, je nach spezifischen Anforderungen und Datencharakteristika.</p>
+</body>
+</html>
